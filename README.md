@@ -34,6 +34,6 @@
 
 
 ## Results
-![Figure_1](./Results/Loss.png)
-![Figure_2](./Results/Period_acc.png)
-![Figure_2](./Results/Weather_acc.png)
+![Figure_1](./results/Loss.png)
+![Figure_2](./results/Period_acc.png)
+![Figure_2](./results/Weather_acc.png)
