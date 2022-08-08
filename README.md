@@ -16,7 +16,7 @@
 ## Structure
 
   ├── [main.py](./main.py): Training pipeline   
-  ├── [data]: ONCE dataset  
+  ├── data: ONCE dataset  
   ├── [src](./src): Functions   
   ├────[count_value.py](./src/count_value.py): Count sample classes distribution according to path list    
   ├────[find_files.py](./src/find_files.py): Find all json files under path     
