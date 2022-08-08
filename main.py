@@ -251,7 +251,7 @@ def main():
     plt.ylim((0,1.))
     plt.xticks(np.arange(1, len(train_acc_history_w)+1, 1.0))
     plt.legend()
-    pic_acc_name = './src/Weather_acc.png'
+    pic_acc_name = './Results/Weather_acc.png'
     plt.savefig(pic_acc_name,bbox_inches='tight')
 
     fig = plt.figure(2)
@@ -263,7 +263,7 @@ def main():
     plt.ylim((0,1.))
     plt.xticks(np.arange(1, len(train_acc_history_w)+1, 1.0))
     plt.legend()
-    pic_acc_name = './src/Period_acc.png'
+    pic_acc_name = './Results/Period_acc.png'
     plt.savefig(pic_acc_name,bbox_inches='tight')
 
 
@@ -276,7 +276,7 @@ def main():
     plt.ylim((0,3.))
     plt.xticks(np.arange(1, len(val_loss_history)+1, 1.0))
     plt.legend()
-    pic_acc_name = './src/Loss.png'
+    pic_acc_name = './Results/Loss.png'
     plt.savefig(pic_acc_name,bbox_inches='tight')
 
 if __name__ == '__main__':
