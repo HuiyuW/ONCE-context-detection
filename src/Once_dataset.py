@@ -37,7 +37,7 @@ class Once_dataset(Dataset):  # dataset
         self.dict_json_w = dict_json_w
         self.dict_json_p = dict_json_p
         img_path_list = self.find_img()
-        num = 1000
+        num = 2000
         random.seed(10)
         torch.manual_seed(0)
         img_path_list = sample(img_path_list,num)

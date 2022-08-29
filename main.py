@@ -25,6 +25,7 @@ from random import sample
 from src.Once_dataset import Once_dataset
 from src.count_value import count
 from src.model_parameter import initialize_model
+from src.creterion import ConfusionMatrix
 
 
 def main():
@@ -107,7 +108,7 @@ def main():
     test_acc_history_w = [] 
     test_loss_history = []
     since = time.time()
-    limit = 15
+    limit = 1 #should be 15
     for it in range(limit): # after get train set learn by cnn times by times
         print("-"*10)
         print('Epoch',it)
@@ -196,6 +197,8 @@ def main():
     running_loss = 0.
     running_corrects_p = 0.
     running_corrects_w = 0.
+    confusion_p = ConfusionMatrix(num_classes=4)
+    confusion_w = ConfusionMatrix(num_classes=3)
     model_p.eval()
     model_w.eval()
     for inputs, label_period, label_weather in test_loader:   
@@ -211,7 +214,9 @@ def main():
             loss += criterion_w(outputs_w, label_weather)
 
         _, preds_p = torch.max(outputs_p, 1)
-        _, preds_w = torch.max(outputs_w, 1)        
+        _, preds_w = torch.max(outputs_w, 1)   
+        confusion_p.update(preds_p.cpu().numpy(), label_period.cpu().numpy())  
+        confusion_w.update(preds_w.cpu().numpy(), label_weather.cpu().numpy())   
 
         running_loss += loss.item() * inputs.size(0)                                 
         running_corrects_p += torch.sum(preds_p.view(-1) == label_period.view(-1)).item()      # count accuracy
@@ -226,7 +231,9 @@ def main():
             label_w = label_weather[i]
             class_correct_w[label_w] += c_w[i].item()
             class_total_w[label_w] += 1
-    # best_model_wts = copy.deepcopy(model.state_dict())    
+    # best_model_wts = copy.deepcopy(model.state_dict()) 
+    acc_p,table_p = confusion_p.summary()   
+    acc_w,table_w = confusion_w.summary()
     epoch_loss = running_loss / len(test_loader.dataset)
     epoch_acc_p = running_corrects_p / len(test_loader.dataset)
     epoch_acc_w = running_corrects_w / len(test_loader.dataset)
@@ -238,9 +245,16 @@ def main():
         print('Accuracy of %5s : %2d %%' %(classes_w[i],100*class_correct_w[i]/class_total_w[i]))
 
     print("test_Loss: {} Period_Acc: {} Weather_Acc: {}".format(epoch_loss, epoch_acc_p,epoch_acc_w))
+    print("-"*10)
     test_acc_history_p.append(epoch_acc_p)
     test_acc_history_w.append(epoch_acc_w)
     test_loss_history.append(epoch_loss)
+    print("period creterion")
+    print(table_p)
+    print("weather creterion")
+    print(table_w)
+    confusion_p.plot()
+    confusion_w.plot()
 
     fig = plt.figure(1)
     plt.title("Validation Accuracy weather vs. Train Accuracy weather")
@@ -251,7 +265,7 @@ def main():
     plt.ylim((0,1.))
     plt.xticks(np.arange(1, len(train_acc_history_w)+1, 1.0))
     plt.legend()
-    pic_acc_name = './Results/Weather_acc.png'
+    pic_acc_name = './results/Weather_acc2000.png'
     plt.savefig(pic_acc_name,bbox_inches='tight')
 
     fig = plt.figure(2)
@@ -263,7 +277,7 @@ def main():
     plt.ylim((0,1.))
     plt.xticks(np.arange(1, len(train_acc_history_w)+1, 1.0))
     plt.legend()
-    pic_acc_name = './Results/Period_acc.png'
+    pic_acc_name = './results/Period_acc2000.png'
     plt.savefig(pic_acc_name,bbox_inches='tight')
 
 
@@ -276,7 +290,7 @@ def main():
     plt.ylim((0,3.))
     plt.xticks(np.arange(1, len(val_loss_history)+1, 1.0))
     plt.legend()
-    pic_acc_name = './Results/Loss.png'
+    pic_acc_name = './results/Loss2000.png'
     plt.savefig(pic_acc_name,bbox_inches='tight')
 
 if __name__ == '__main__':
