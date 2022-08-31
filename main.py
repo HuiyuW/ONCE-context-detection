@@ -45,7 +45,8 @@ def main():
 
     train_loader = DataLoader(dataset=train_dataset, batch_size=128, shuffle=False)
     val_loader = DataLoader(dataset=val_dataset, batch_size=128, shuffle=False)
-    test_loader = DataLoader(dataset=test_dataset, batch_size=128, shuffle=False)
+    test_loader = DataLoader(dataset=test_dataset, batch_size=128
+    , shuffle=False)
     train_img_path_list,val_img_path_list,test_img_path_list = train_dataset.return_list()
     dict_json_w,dict_json_p = train_dataset.return_json()
     train_dict_p,train_dict_w = count(train_img_path_list,dict_json_w,dict_json_p)
@@ -108,7 +109,7 @@ def main():
     test_acc_history_w = [] 
     test_loss_history = []
     since = time.time()
-    limit = 1 #should be 15
+    limit = 15 #should be 15
     for it in range(limit): # after get train set learn by cnn times by times
         print("-"*10)
         print('Epoch',it)
