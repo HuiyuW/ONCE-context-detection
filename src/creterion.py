@@ -11,7 +11,7 @@ class ConfusionMatrix(object):
     def __init__(self, num_classes: int):
         self.matrix = np.zeros((num_classes, num_classes))
         self.num_classes = num_classes
-        self.labels = [0,1,2,3]
+        self.labels = np.arange(num_classes).tolist()
 
     def update(self, preds, labels):
         for p, t in zip(preds, labels):
